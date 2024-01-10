@@ -14,6 +14,17 @@ export class App extends React.Component {
     ],
     filter: '',
   };
+  componentDidMount() {
+    const contacts = JSON.parse(localStorage.getItem('CONTACTS'));
+    if (contacts?.length) {
+      this.setState({ contacts });
+    }
+  }
+  componentDidUpdate(_, prevState) {
+    if (prevState.contacts.length !== this.state.contacts.length) {
+      localStorage.setItem('CONTACTS', JSON.stringify(this.state.contacts));
+    }
+  }
   handleAddContact = data => {
     const newObject = {
       id: nanoid(),
